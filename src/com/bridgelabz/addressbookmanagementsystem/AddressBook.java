@@ -14,10 +14,7 @@ public class AddressBook {
     public AddressBook(){
         this.contactList = new ArrayList<>();
     }
-    public void addContact(Contact contact){
-        this.contactList.add(contact);
-    }
-    public void takeContactInput(){
+    public void addContact(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter First Name");
         String firstName = sc.next();
