@@ -12,4 +12,7 @@ public class AddressBook {
     public AddressBook(){
         this.contactList = new ArrayList<>();
     }
+    public void addContact(Contact contact){
+        this.contactList.add(contact);
+    }
 }
