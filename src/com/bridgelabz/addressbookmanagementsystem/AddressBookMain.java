@@ -1,6 +1,9 @@
 package com.bridgelabz.addressbookmanagementsystem;
 import java.util.Scanner;
 
+/**
+ * AddressBookMain Class
+ */
 public class AddressBookMain {
 
     public static void main(String[] args) {
