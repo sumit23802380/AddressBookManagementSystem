@@ -14,7 +14,7 @@ public class AddressBook {
     // Adds multiple person contact to the address book
     ArrayList<Contact> contactList;
     private final Scanner scanner;
-
+    private String name;
     /**
      * Constructor of AddressBook Class
      */
@@ -23,6 +23,22 @@ public class AddressBook {
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Method to get the name of the address book
+     * @return name of the address book
+     */
+    public String getName(){
+        return this.name;
+    }
+
+    /**
+     * Method to set the name of the address book
+     * @param name
+     * name of the address book
+     */
+    public void setName(String name){
+        this.name = name;
+    }
     /**
      * Method to open the address book , can add , edit , delete and close the address book
      */
