@@ -11,6 +11,7 @@ public class AddressBook {
     private static final int EDIT_CONTACT=2;
     private static final int CLOSE_ADDRESS_BOOK =0;
     private static final int DELETE_CONTACT=3;
+    // Adds multiple person contact to the address book
     ArrayList<Contact> contactList;
     private final Scanner scanner;
 
