@@ -10,8 +10,9 @@ public class AddressBook {
     private static final int ADD_CONTACT=1;
     private static final int EDIT_CONTACT=2;
     private static final int CLOSE_ADDRESS_BOOK =0;
+    private static final int DELETE_CONTACT=3;
     ArrayList<Contact> contactList;
-    private Scanner scanner;
+    private final Scanner scanner;
 
     /**
      * Constructor of AddressBook Class
@@ -22,12 +23,13 @@ public class AddressBook {
     }
 
     /**
-     * Method to open the address book , can add , edit or close the address book
+     * Method to open the address book , can add , edit , delete and close the address book
      */
     public void open(){
         System.out.println("Select options : ");
         System.out.println("Press 1 if want to add a new contact");
         System.out.println("Press 2 if you want to edit an existing contact");
+        System.out.println("Press 3 if you want to delete an existing contact");
         System.out.println("Press 0 To exit");
         Scanner sc = new Scanner(System.in);
         int pressedOption = sc.nextInt();
@@ -37,6 +39,9 @@ public class AddressBook {
                 break;
             case EDIT_CONTACT:
                 this.editContact();
+                break;
+            case DELETE_CONTACT:
+                this.deleteContact();
                 break;
             case CLOSE_ADDRESS_BOOK:
                 return;
@@ -120,6 +125,25 @@ public class AddressBook {
             Contact editedContact = new Contact(newFirstName, newLastName, newAddress, newCity, newState, newZip, newPhoneNumber, newEmail);
             contactList.set(contactIndex, editedContact);
             System.out.println("Your contact is updated , Thanks");
+        }
+        else{
+            System.out.println("Contact with given name is not found");
+        }
+    }
+
+    /**
+     * Method to delete the contact by name
+     */
+    private void deleteContact(){
+        System.out.println("Delete the contact");
+        System.out.println("Enter existing First Name");
+        System.out.println("Enter existing Last Name");
+        String firstNameEntered = scanner.next();
+        String lastNameEntered = scanner.next();
+        int contactIndex = findIndexOfContactByName(firstNameEntered, lastNameEntered);
+        if(contactIndex!=-1){
+            contactList.remove(contactIndex);
+            System.out.println("Contact is Deleted , Thanks");
         }
         else{
             System.out.println("Contact with given name is not found");
