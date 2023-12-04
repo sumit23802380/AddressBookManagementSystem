@@ -69,7 +69,7 @@ public class AddressBook {
     }
 
     /**
-     * Method to add the new contact to the contact list
+     * Method to add the new contact to the contact list if by name it doesn't exists already in contactList
      */
     private void addContact(){
         System.out.println("Please provide all the details to add a new Contact:");
@@ -77,6 +77,12 @@ public class AddressBook {
         String firstName = scanner.next();
         System.out.println("Enter Last Name");
         String lastName = scanner.next();
+
+        // Check if the contact already exists
+        if(findIndexOfContactByName(firstName , lastName)!=-1){
+            System.out.println("Already present , please add new contact or edit the existing contact");
+            return;
+        }
         System.out.println("Enter Address");
         String address = scanner.next();
         System.out.println("Enter City");
