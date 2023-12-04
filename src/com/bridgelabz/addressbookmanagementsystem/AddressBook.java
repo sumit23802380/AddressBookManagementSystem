@@ -77,12 +77,6 @@ public class AddressBook {
         String firstName = scanner.next();
         System.out.println("Enter Last Name");
         String lastName = scanner.next();
-
-        // Check if the contact already exists
-        if(findIndexOfContactByName(firstName , lastName)!=-1){
-            System.out.println("Already present , please add new contact or edit the existing contact");
-            return;
-        }
         System.out.println("Enter Address");
         String address = scanner.next();
         System.out.println("Enter City");
@@ -95,8 +89,14 @@ public class AddressBook {
         String phoneNumber = scanner.next();
         System.out.println("Enter Email");
         String email = scanner.next();
+        // Uses Java Stream to check if find any match
+        if(contactList.stream().anyMatch(contact -> contact.equals(new Contact(firstName,lastName , address , city , state , zip , phoneNumber , email)))){
+            System.out.println("Already present , please add new contact or edit the existing contact");
+            return;
+        }
         Contact contact = new Contact(firstName , lastName , address , city , state , zip , phoneNumber , email);
         contactList.add(contact);
+        System.out.println("New contact is Added.");
     }
 
     /**
@@ -110,7 +110,7 @@ public class AddressBook {
     private int findIndexOfContactByName(String firstName , String lastName){
         for(int i=0;i<contactList.size();i++){
             Contact contact = contactList.get(i);
-            if(contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName)){
+            if(contact.getFirstName().equalsIgnoreCase(firstName) && contact.getLastName().equalsIgnoreCase(lastName)){
                 return i;
             }
         }

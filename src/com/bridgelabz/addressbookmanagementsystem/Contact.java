@@ -58,4 +58,26 @@ public class Contact {
     public String getLastName(){
         return this.lastName;
     }
+
+    /**
+     * Method Overrides the equal method of object and checks whether the contact and the object passed is same or not
+     * @param obj
+     * Object obj that is passed to check whether this is same as Contact same or not
+     * @return the object that passed and current this Contact is same or not
+     */
+    @Override
+    public boolean equals(Object obj){
+        if(obj == null || this.getClass()!=obj.getClass()){
+            return false;
+        }
+        Contact contact = (Contact) obj;
+        return this.firstName.equalsIgnoreCase(contact.firstName)
+                && lastName.equalsIgnoreCase(contact.lastName)
+                && this.address.equalsIgnoreCase(contact.address)
+                && this.state.equalsIgnoreCase(contact.state)
+                && this.city.equalsIgnoreCase(contact.city)
+                && this.zip.equalsIgnoreCase(contact.zip)
+                && this.phoneNumber.equals(contact.phoneNumber)
+                && this.email.equals(contact.email);
+    }
 }
