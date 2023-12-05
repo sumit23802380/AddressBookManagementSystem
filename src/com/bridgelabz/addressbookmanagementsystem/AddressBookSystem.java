@@ -1,5 +1,9 @@
 package com.bridgelabz.addressbookmanagementsystem;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 /**
@@ -26,6 +30,7 @@ public class AddressBookSystem {
         this.addressBookList = new HashMap<>();
         this.cityContactList = new HashMap<>();
         this.stateContactList = new HashMap<>();
+        this.createDirectoryForAddressBookSystem();
     }
 
     /**
@@ -41,8 +46,29 @@ public class AddressBookSystem {
         else{
             AddressBook addressBook = new AddressBook(this);
             addressBook.setName(addressBookName);
+            createDirectoryForAddressBookWithName(addressBookName);
             addressBookList.put(addressBookName , addressBook);
             System.out.println("Address Book with name " + addressBookName + " added");
+        }
+    }
+    private void createDirectoryForAddressBookSystem(){
+        String directoryPathOfAddressBookSystem =  "AddressBookSystem";
+        Path directory = Path.of(directoryPathOfAddressBookSystem);
+        try {
+            Files.createDirectories(directory);
+            System.out.println("Directory AddressBookSystem created successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void createDirectoryForAddressBookWithName(String addressBookName){
+        String directoryPathOfAddressBook =  "AddressBookSystem/" + addressBookName;
+        Path directory = Path.of(directoryPathOfAddressBook);
+        try {
+            Files.createDirectories(directory);
+            System.out.println("Directory AddressBook " +addressBookName+" created successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -176,6 +202,24 @@ public class AddressBookSystem {
             cityContactList.put(cityName , new ArrayList<>());
         }
         cityContactList.get(cityName).add(contact);
+        addContactToAddressBookSystemByCityFile(contact.getCity() , contact);
+    }
+
+    private void addContactToAddressBookSystemByCityFile(String city, Contact contact) {
+        String directoryPath =  "AddressBookSystem/Cities";
+        String content = contact.toString();
+        Path directory = Path.of(directoryPath);
+        Path filePath = directory.resolve(city);
+        try {
+            Files.createDirectories(directory);
+            if(!Files.exists(filePath)){
+                Files.createFile(filePath);
+            }
+            Files.writeString(filePath, content, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+            System.out.println("Directory and files created successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -188,5 +232,23 @@ public class AddressBookSystem {
             stateContactList.put(stateName , new ArrayList<>());
         }
         stateContactList.get(stateName).add(contact);
+        addContactToAddressBookSystemByStateFile(contact.getState() , contact);
+    }
+
+    private void addContactToAddressBookSystemByStateFile(String state, Contact contact) {
+        String directoryPath =  "AddressBookSystem/States";
+        String content = contact.toString();
+        Path directory = Path.of(directoryPath);
+        Path filePath = directory.resolve(state);
+        try {
+            Files.createDirectories(directory);
+            if(!Files.exists(filePath)){
+                Files.createFile(filePath);
+            }
+            Files.writeString(filePath, content, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+            System.out.println("Directory and file created successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

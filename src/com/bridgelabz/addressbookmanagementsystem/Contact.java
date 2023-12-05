@@ -136,15 +136,13 @@ public class Contact {
 
     @Override
     public String toString(){
-        StringBuilder result = new StringBuilder();
-        result.append(this.firstName).append(" ");
-        result.append(this.lastName).append(" ");
-        result.append(this.address).append(" ");
-        result.append(this.state).append(" ");
-        result.append(this.city).append(" ");
-        result.append(this.zip).append(" ");
-        result.append(this.phoneNumber).append(" ");
-        result.append(this.email).append(" ");
-        return result.toString();
+        return "firstName=" + this.firstName + " " +
+                "lastName=" + this.lastName + " " +
+                "address=" + this.address + " " +
+                "state=" + this.state + " " +
+                "city=" + this.city + " " +
+                "zip=" + this.zip + " " +
+                "phoneNumber=" + this.phoneNumber + " " +
+                "email=" + this.email;
     }
 }

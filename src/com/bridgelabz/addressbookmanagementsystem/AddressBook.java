@@ -1,5 +1,9 @@
 package com.bridgelabz.addressbookmanagementsystem;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -140,9 +144,26 @@ public class AddressBook {
         }
         Contact contact = new Contact(firstName , lastName , address , city , state , zip , phoneNumber , email);
         contactList.add(contact);
+        addContactToAddressBookFile(contact);
         addressBookSystem.addContactByCity(contact.getCity() , contact);
         addressBookSystem.addContactByState(contact.getState() , contact);
+
         System.out.println("New contact is Added.");
+    }
+
+    private void addContactToAddressBookFile(Contact contact) {
+        String directoryPath =  "AddressBookSystem/" + this.name;
+        String fileName = contact.getFirstName() + contact.getLastName();
+        String content = contact.toString();
+        Path directory = Path.of(directoryPath);
+        Path filePath = directory.resolve(fileName);
+        try {
+            Files.createFile(filePath);
+            Files.writeString(filePath, content, StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+            System.out.println("Directory and file created successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
