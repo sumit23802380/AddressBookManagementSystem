@@ -80,4 +80,57 @@ public class Contact {
                 && this.phoneNumber.equals(contact.phoneNumber)
                 && this.email.equals(contact.email);
     }
+
+    /**
+     * Method to get the city
+     * @return city
+     * city of the contact
+     */
+    public String getCity() {
+        return this.city;
+    }
+
+    /**
+     * Method to get the address
+     * @return address
+     * address of the contact
+     */
+    public String getAddress() {
+        return this.address;
+    }
+
+    /**
+     * Method to get the state
+     * @return state
+     * state of the contact
+     */
+    public String getState() {
+        return this.state;
+    }
+
+    /**
+     * Method to get the zip
+     * @return zip
+     * zip of the contact
+     */
+    public String getZip() {
+        return this.zip;
+    }
+    /**
+     * Method to get the phoneNumber
+     * @return phoneNumber
+     * phoneNumber of the contact
+     */
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    /**
+     * Method to get the email
+     * @return email
+     * email of the contact
+     */
+    public String getEmail() {
+        return this.email;
+    }
 }

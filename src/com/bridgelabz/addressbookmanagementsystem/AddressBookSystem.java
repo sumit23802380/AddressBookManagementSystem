@@ -1,24 +1,29 @@
 package com.bridgelabz.addressbookmanagementsystem;
 
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Address Book System Class that store multiple address books
  */
 public class AddressBookSystem {
-    private final int ADD_NEW_ADDRESSBOOK = 1;
-    private final int CLOSE_ADDRESS_BOOK_SYSTEM = 0;
-    private final int OPEN_EXISTING_ADDRESSBOOK = 2;
-    private final HashMap<String , AddressBook> addressBookList;
+    private static final int SEARCH_PERSON_BY_STATE = 4;
+    private static final int CLOSE_ADDRESS_BOOK_SYSTEM = 0;
+    private static final int ADD_NEW_ADDRESSBOOK = 1;
+    private static final int OPEN_EXISTING_ADDRESSBOOK = 2;
+    private static final int SEARCH_PERSON_BY_CITY = 3;
+    private final Map<String , AddressBook> addressBookList;
+    private final Map<String , List<Contact>> cityContactList;
+    private final Map<String , List<Contact>> stateContactList;
     private final Scanner scanner;
     /**
      * Address Book System Constructor
      */
     public AddressBookSystem(){
         System.out.println("Welcome to Address Book System");
-        scanner = new Scanner(System.in);
-        addressBookList = new HashMap<>();
+        this.scanner = new Scanner(System.in);
+        this.addressBookList = new HashMap<>();
+        this.cityContactList = new HashMap<>();
+        this.stateContactList = new HashMap<>();
     }
 
     /**
@@ -32,7 +37,7 @@ public class AddressBookSystem {
             addNewAddressBook();
         }
         else{
-            AddressBook addressBook = new AddressBook();
+            AddressBook addressBook = new AddressBook(this);
             addressBook.setName(addressBookName);
             addressBookList.put(addressBookName , addressBook);
             System.out.println("Address Book with name " + addressBookName + " added");
@@ -40,12 +45,57 @@ public class AddressBookSystem {
     }
 
     /**
+     * Method to search all the contacts across all the address books by city
+     */
+    private void searchPersonAcrossAddressBooksByCity() {
+        System.out.println("Enter the city to search:");
+        String city = scanner.next();
+        System.out.println("Search results:");
+        // Use Java Streams to search across all address books
+        addressBookList.values().stream()
+                .flatMap(addressBook -> addressBook.contactList.stream())
+                .filter(contact -> contact.getCity().equalsIgnoreCase(city))
+                .forEach(this::displayContactDetails);
+    }
+
+    /**
+     * Method to search all the contacts across all the address books by state
+     */
+    private void searchPersonAcrossAddressBooksByState() {
+        System.out.println("Enter the State to search :");
+        String state = scanner.next();
+        System.out.println("Search results :");
+        addressBookList.values().stream()
+                .flatMap(addressBook -> addressBook.contactList.stream())
+                .filter(contact -> contact.getState().equalsIgnoreCase(state))
+                .forEach(this::displayContactDetails);
+    }
+
+
+    /**
+     * Method to print the display contact details
+     * @param contact
+     */
+    private void displayContactDetails(Contact contact) {
+        System.out.println("First Name: " + contact.getFirstName());
+        System.out.println("Last Name: " + contact.getLastName());
+        System.out.println("Address: " + contact.getAddress());
+        System.out.println("City: " + contact.getCity());
+        System.out.println("State: " + contact.getState());
+        System.out.println("Zip: " + contact.getZip());
+        System.out.println("Phone Number: " + contact.getPhoneNumber());
+        System.out.println("Email: " + contact.getEmail());
+        System.out.println("---------------------------");
+    }
+    /**
      * Method to open the address book system
      */
     public void open(){
         System.out.println("Select options : ");
         System.out.println("Press 1 if want to add a new Address Book");
         System.out.println("Press 2 if want to open a existing Address Book");
+        System.out.println("Press 3 if want to search the contact by City");
+        System.out.println("Press 4 if want to search the contact by State");
         System.out.println("Press 0 To exit");
         Scanner sc = new Scanner(System.in);
         int pressedOption = sc.nextInt();
@@ -56,8 +106,15 @@ public class AddressBookSystem {
             case OPEN_EXISTING_ADDRESSBOOK :
                 this.openExistingAddressBook();
                 break;
+            case SEARCH_PERSON_BY_CITY:
+                this.searchPersonAcrossAddressBooksByCity();
+                break;
+            case SEARCH_PERSON_BY_STATE:
+                this.searchPersonAcrossAddressBooksByState();
+                break;
             case CLOSE_ADDRESS_BOOK_SYSTEM:
                 return;
+
             default:
                 System.out.println("Please press valid button");
         }
@@ -77,5 +134,29 @@ public class AddressBookSystem {
         else{
             System.out.println("Please provide the correct name of the address book");
         }
+    }
+
+    /**
+     * Method to add contact by city in hashmap
+     * @param cityName
+     * @param contact
+     */
+    public void addContactByCity(String cityName , Contact contact){
+        if(!cityContactList.containsKey(cityName)){
+            cityContactList.put(cityName , new ArrayList<>());
+        }
+        cityContactList.get(cityName).add(contact);
+    }
+
+    /**
+     * Method to add contact by state in hashmap
+     * @param stateName
+     * @param contact
+     */
+    public void addContactByState(String stateName , Contact contact){
+        if(!stateContactList.containsKey(stateName)){
+            stateContactList.put(stateName , new ArrayList<>());
+        }
+        stateContactList.get(stateName).add(contact);
     }
 }

@@ -1,24 +1,28 @@
 package com.bridgelabz.addressbookmanagementsystem;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
  * Address Book Class
  */
 public class AddressBook {
+    private final AddressBookSystem addressBookSystem;
     private static final int ADD_CONTACT=1;
     private static final int EDIT_CONTACT=2;
     private static final int CLOSE_ADDRESS_BOOK =0;
     private static final int DELETE_CONTACT=3;
     // Adds multiple person contact to the address book
-    ArrayList<Contact> contactList;
+    List<Contact> contactList;
+
     private final Scanner scanner;
     private String name;
     /**
      * Constructor of AddressBook Class
      */
-    public AddressBook(){
+    public AddressBook(AddressBookSystem addressBookSystem){
+        this.addressBookSystem = addressBookSystem;
         this.contactList = new ArrayList<>();
         this.scanner = new Scanner(System.in);
     }
@@ -96,6 +100,8 @@ public class AddressBook {
         }
         Contact contact = new Contact(firstName , lastName , address , city , state , zip , phoneNumber , email);
         contactList.add(contact);
+        addressBookSystem.addContactByCity(contact.getCity() , contact);
+        addressBookSystem.addContactByState(contact.getState() , contact);
         System.out.println("New contact is Added.");
     }
 
