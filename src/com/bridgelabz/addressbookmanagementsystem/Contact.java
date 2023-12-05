@@ -133,4 +133,18 @@ public class Contact {
     public String getEmail() {
         return this.email;
     }
+
+    @Override
+    public String toString(){
+        StringBuilder result = new StringBuilder();
+        result.append(this.firstName).append(" ");
+        result.append(this.lastName).append(" ");
+        result.append(this.address).append(" ");
+        result.append(this.state).append(" ");
+        result.append(this.city).append(" ");
+        result.append(this.zip).append(" ");
+        result.append(this.phoneNumber).append(" ");
+        result.append(this.email).append(" ");
+        return result.toString();
+    }
 }

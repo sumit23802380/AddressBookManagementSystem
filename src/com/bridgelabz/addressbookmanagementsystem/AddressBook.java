@@ -1,18 +1,19 @@
 package com.bridgelabz.addressbookmanagementsystem;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Address Book Class
  */
 public class AddressBook {
+    private static final int PRINT_ADDRESS_BOOK = 5;
     private final AddressBookSystem addressBookSystem;
     private static final int ADD_CONTACT=1;
     private static final int EDIT_CONTACT=2;
     private static final int CLOSE_ADDRESS_BOOK =0;
     private static final int DELETE_CONTACT=3;
+    private static final int SORT_CONTACTS_BY_NAME = 4;
     // Adds multiple person contact to the address book
     List<Contact> contactList;
 
@@ -51,6 +52,8 @@ public class AddressBook {
         System.out.println("Press 1 if want to add a new contact");
         System.out.println("Press 2 if you want to edit an existing contact");
         System.out.println("Press 3 if you want to delete an existing contact");
+        System.out.println("Press 4 if you want to sort contacts by name");
+        System.out.println("Press 5 if you want to print address book");
         System.out.println("Press 0 To exit");
         Scanner sc = new Scanner(System.in);
         int pressedOption = sc.nextInt();
@@ -64,12 +67,28 @@ public class AddressBook {
             case DELETE_CONTACT:
                 this.deleteContact();
                 break;
+            case SORT_CONTACTS_BY_NAME:
+                this.sortContactsByName();
+                break;
+            case PRINT_ADDRESS_BOOK:
+                this.printAddressBook();
+                break;
             case CLOSE_ADDRESS_BOOK:
                 return;
             default:
                 System.out.println("Please press valid button");
         }
         open();
+    }
+
+    private void printAddressBook() {
+        System.out.println(this.toString());
+    }
+
+    private void sortContactsByName() {
+        contactList = contactList.stream()
+                .sorted(Comparator.comparing(Contact::getFirstName).thenComparing(Contact::getLastName))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -177,5 +196,13 @@ public class AddressBook {
         else{
             System.out.println("Contact with given name is not found");
         }
+    }
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (Contact contact : contactList) {
+            result.append(contact.toString()).append("\n");
+        }
+        return result.toString();
     }
 }
