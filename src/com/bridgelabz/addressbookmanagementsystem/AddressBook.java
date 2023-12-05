@@ -7,13 +7,15 @@ import java.util.stream.Collectors;
  * Address Book Class
  */
 public class AddressBook {
-    private static final int PRINT_ADDRESS_BOOK = 5;
     private final AddressBookSystem addressBookSystem;
     private static final int ADD_CONTACT=1;
     private static final int EDIT_CONTACT=2;
     private static final int CLOSE_ADDRESS_BOOK =0;
     private static final int DELETE_CONTACT=3;
     private static final int SORT_CONTACTS_BY_NAME = 4;
+    private static final int SORT_CONTACTS_BY_STATE = 5;
+    private static final int SORT_CONTACTS_BY_ZIP = 6;
+    private static final int PRINT_ADDRESS_BOOK = 7;
     // Adds multiple person contact to the address book
     List<Contact> contactList;
 
@@ -53,7 +55,9 @@ public class AddressBook {
         System.out.println("Press 2 if you want to edit an existing contact");
         System.out.println("Press 3 if you want to delete an existing contact");
         System.out.println("Press 4 if you want to sort contacts by name");
-        System.out.println("Press 5 if you want to print address book");
+        System.out.println("Press 5 if you want to sort contacts by state");
+        System.out.println("Press 6 if you want to sort contacts by zip code");
+        System.out.println("Press 7 if you want to print address book");
         System.out.println("Press 0 To exit");
         Scanner sc = new Scanner(System.in);
         int pressedOption = sc.nextInt();
@@ -73,6 +77,12 @@ public class AddressBook {
             case PRINT_ADDRESS_BOOK:
                 this.printAddressBook();
                 break;
+            case SORT_CONTACTS_BY_STATE:
+                this.sortContactsByState();
+                break;
+            case SORT_CONTACTS_BY_ZIP:
+                this.sortContactsByZip();
+                break;
             case CLOSE_ADDRESS_BOOK:
                 return;
             default:
@@ -81,8 +91,16 @@ public class AddressBook {
         open();
     }
 
-    private void printAddressBook() {
-        System.out.println(this.toString());
+    private void sortContactsByZip() {
+        contactList = contactList.stream()
+                .sorted(Comparator.comparing(Contact::getZip))
+                .collect(Collectors.toList());
+    }
+
+    private void sortContactsByState() {
+        contactList = contactList.stream()
+                .sorted(Comparator.comparing(Contact::getState))
+                .collect(Collectors.toList());
     }
 
     private void sortContactsByName() {
@@ -91,6 +109,9 @@ public class AddressBook {
                 .collect(Collectors.toList());
     }
 
+    private void printAddressBook() {
+        System.out.println(this.toString());
+    }
     /**
      * Method to add the new contact to the contact list if by name it doesn't exists already in contactList
      */
