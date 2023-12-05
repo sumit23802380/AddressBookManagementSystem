@@ -50,12 +50,13 @@ public class AddressBookSystem {
     private void searchPersonAcrossAddressBooksByCity() {
         System.out.println("Enter the city to search:");
         String city = scanner.next();
-        System.out.println("Search results:");
-        // Use Java Streams to search across all address books
-        addressBookList.values().stream()
-                .flatMap(addressBook -> addressBook.contactList.stream())
-                .filter(contact -> contact.getCity().equalsIgnoreCase(city))
-                .forEach(this::displayContactDetails);
+        if(cityContactList.containsKey(city)){
+            System.out.println("Search results:");
+            cityContactList.get(city).forEach(this::displayContactDetails);
+        }
+        else{
+            System.out.println("No contacts are found by this city :" + city);
+        }
     }
 
     /**
@@ -64,11 +65,13 @@ public class AddressBookSystem {
     private void searchPersonAcrossAddressBooksByState() {
         System.out.println("Enter the State to search :");
         String state = scanner.next();
-        System.out.println("Search results :");
-        addressBookList.values().stream()
-                .flatMap(addressBook -> addressBook.contactList.stream())
-                .filter(contact -> contact.getState().equalsIgnoreCase(state))
-                .forEach(this::displayContactDetails);
+        if(stateContactList.containsKey(state)){
+            System.out.println("Search results :");
+            stateContactList.get(state).forEach(this::displayContactDetails);
+        }
+        else{
+            System.out.println("No contacts are found by this state :" + state);
+        }
     }
 
 
