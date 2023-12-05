@@ -11,6 +11,8 @@ public class AddressBookSystem {
     private static final int ADD_NEW_ADDRESSBOOK = 1;
     private static final int OPEN_EXISTING_ADDRESSBOOK = 2;
     private static final int SEARCH_PERSON_BY_CITY = 3;
+    private static final int GET_COUNT_BY_CITY = 5;
+    private static final int GET_COUNT_BY_STATE = 6;
     private final Map<String , AddressBook> addressBookList;
     private final Map<String , List<Contact>> cityContactList;
     private final Map<String , List<Contact>> stateContactList;
@@ -99,6 +101,8 @@ public class AddressBookSystem {
         System.out.println("Press 2 if want to open a existing Address Book");
         System.out.println("Press 3 if want to search the contact by City");
         System.out.println("Press 4 if want to search the contact by State");
+        System.out.println("Press 5 if want to get count of the contact by City");
+        System.out.println("Press 6 if want to get count of the contact by State");
         System.out.println("Press 0 To exit");
         Scanner sc = new Scanner(System.in);
         int pressedOption = sc.nextInt();
@@ -115,13 +119,36 @@ public class AddressBookSystem {
             case SEARCH_PERSON_BY_STATE:
                 this.searchPersonAcrossAddressBooksByState();
                 break;
+            case GET_COUNT_BY_CITY:
+                this.getCountByCityAcrossAddressBook();
+                break;
+            case GET_COUNT_BY_STATE:
+                this.getCountByStateAcrossAddressBook();
+                break;
             case CLOSE_ADDRESS_BOOK_SYSTEM:
                 return;
-
             default:
                 System.out.println("Please press valid button");
         }
         open();
+    }
+
+    /**
+     *
+     */
+    private void getCountByStateAcrossAddressBook() {
+        System.out.println("Enter the State to get the count:");
+        String state = scanner.next();
+        System.out.println("Count of the state " + state + " is : " + stateContactList.getOrDefault(state , Collections.emptyList()).stream().count());
+    }
+
+    /**
+     *
+     */
+    private void getCountByCityAcrossAddressBook() {
+        System.out.println("Enter the City to get the count :");
+        String city = scanner.next();
+        System.out.println("Count of the city " + city + " is : " + cityContactList.getOrDefault(city , Collections.emptyList()).stream().count());
     }
 
     /**
