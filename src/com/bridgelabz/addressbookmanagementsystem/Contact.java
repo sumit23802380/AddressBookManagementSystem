@@ -116,6 +116,7 @@ public class Contact {
     public String getZip() {
         return this.zip;
     }
+
     /**
      * Method to get the phoneNumber
      * @return phoneNumber
@@ -134,6 +135,10 @@ public class Contact {
         return this.email;
     }
 
+    /**
+     * Method to Override the Object Class toString Method of object
+     * @return the Formatted String
+     */
     @Override
     public String toString(){
         return "firstName=" + this.firstName + " " +

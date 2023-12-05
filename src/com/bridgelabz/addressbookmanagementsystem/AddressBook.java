@@ -1,5 +1,4 @@
 package com.bridgelabz.addressbookmanagementsystem;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,9 +11,9 @@ import java.util.stream.Collectors;
  */
 public class AddressBook {
     private final AddressBookSystem addressBookSystem;
+    private static final int CLOSE_ADDRESS_BOOK =0;
     private static final int ADD_CONTACT=1;
     private static final int EDIT_CONTACT=2;
-    private static final int CLOSE_ADDRESS_BOOK =0;
     private static final int DELETE_CONTACT=3;
     private static final int SORT_CONTACTS_BY_NAME = 4;
     private static final int SORT_CONTACTS_BY_STATE = 5;
@@ -22,7 +21,6 @@ public class AddressBook {
     private static final int PRINT_ADDRESS_BOOK = 7;
     // Adds multiple person contact to the address book
     List<Contact> contactList;
-
     private final Scanner scanner;
     private String name;
     /**
@@ -50,6 +48,7 @@ public class AddressBook {
     public void setName(String name){
         this.name = name;
     }
+
     /**
      * Method to open the address book , can add , edit , delete and close the address book
      */
@@ -95,27 +94,40 @@ public class AddressBook {
         open();
     }
 
+    /**
+     * Method to sort the contacts by zip
+     */
     private void sortContactsByZip() {
         contactList = contactList.stream()
                 .sorted(Comparator.comparing(Contact::getZip))
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Method to sort the contacts by state
+     */
     private void sortContactsByState() {
         contactList = contactList.stream()
                 .sorted(Comparator.comparing(Contact::getState))
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Method to sort the contacts by name
+     */
     private void sortContactsByName() {
         contactList = contactList.stream()
                 .sorted(Comparator.comparing(Contact::getFirstName).thenComparing(Contact::getLastName))
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Method to print the address book
+     */
     private void printAddressBook() {
         System.out.println(this.toString());
     }
+
     /**
      * Method to add the new contact to the contact list if by name it doesn't exists already in contactList
      */
@@ -147,10 +159,14 @@ public class AddressBook {
         addContactToAddressBookFile(contact);
         addressBookSystem.addContactByCity(contact.getCity() , contact);
         addressBookSystem.addContactByState(contact.getState() , contact);
-
         System.out.println("New contact is Added.");
     }
 
+    /**
+     * Method to add the contact to address book to file
+     * @param contact
+     * Contact class object that to be added to the file
+     */
     private void addContactToAddressBookFile(Contact contact) {
         String directoryPath =  "AddressBookSystem/" + this.name;
         String fileName = contact.getFirstName() + contact.getLastName();
@@ -239,6 +255,11 @@ public class AddressBook {
             System.out.println("Contact with given name is not found");
         }
     }
+
+    /**
+     * Method to override toString Object Class method
+     * @return formatted string
+     */
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();

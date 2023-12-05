@@ -1,5 +1,4 @@
 package com.bridgelabz.addressbookmanagementsystem;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,22 +6,23 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 /**
- * Address Book System Class that store multiple address books
+ * Address Book System Class that store multiple address books , stores contacts in directories and files
  */
 public class AddressBookSystem {
-    private static final int SEARCH_PERSON_BY_STATE = 4;
     private static final int CLOSE_ADDRESS_BOOK_SYSTEM = 0;
     private static final int ADD_NEW_ADDRESSBOOK = 1;
     private static final int OPEN_EXISTING_ADDRESSBOOK = 2;
     private static final int SEARCH_PERSON_BY_CITY = 3;
+    private static final int SEARCH_PERSON_BY_STATE = 4;
     private static final int GET_COUNT_BY_CITY = 5;
     private static final int GET_COUNT_BY_STATE = 6;
     private final Map<String , AddressBook> addressBookList;
     private final Map<String , List<Contact>> cityContactList;
     private final Map<String , List<Contact>> stateContactList;
     private final Scanner scanner;
+
     /**
-     * Address Book System Constructor
+     * Address Book System Constructor , Initialize the HashMaps of addressBookList , cityContactList , stateContactList and create directories
      */
     public AddressBookSystem(){
         System.out.println("Welcome to Address Book System");
@@ -34,7 +34,7 @@ public class AddressBookSystem {
     }
 
     /**
-     * Method to add the new address book to the system
+     * Method to add the new address book to the system , create directory for addressbook with name
      */
     private void addNewAddressBook(){
         System.out.println("To add the new Address book please enter the name of  address book :");
@@ -51,6 +51,10 @@ public class AddressBookSystem {
             System.out.println("Address Book with name " + addressBookName + " added");
         }
     }
+
+    /**
+     * Method to create the directory for address book system
+     */
     private void createDirectoryForAddressBookSystem(){
         String directoryPathOfAddressBookSystem =  "AddressBookSystem";
         Path directory = Path.of(directoryPathOfAddressBookSystem);
@@ -61,6 +65,12 @@ public class AddressBookSystem {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Method to create directory for address book with name
+     * @param addressBookName
+     * name of the address book to create directory with
+     */
     private void createDirectoryForAddressBookWithName(String addressBookName){
         String directoryPathOfAddressBook =  "AddressBookSystem/" + addressBookName;
         Path directory = Path.of(directoryPathOfAddressBook);
@@ -102,10 +112,10 @@ public class AddressBookSystem {
         }
     }
 
-
     /**
      * Method to print the display contact details
      * @param contact
+     * Contact class object
      */
     private void displayContactDetails(Contact contact) {
         System.out.println("First Name: " + contact.getFirstName());
@@ -118,6 +128,7 @@ public class AddressBookSystem {
         System.out.println("Email: " + contact.getEmail());
         System.out.println("---------------------------");
     }
+
     /**
      * Method to open the address book system
      */
@@ -160,7 +171,7 @@ public class AddressBookSystem {
     }
 
     /**
-     *
+     * Method to print the count by state across address book
      */
     private void getCountByStateAcrossAddressBook() {
         System.out.println("Enter the State to get the count:");
@@ -169,7 +180,7 @@ public class AddressBookSystem {
     }
 
     /**
-     *
+     * Method to print the count by city across address book
      */
     private void getCountByCityAcrossAddressBook() {
         System.out.println("Enter the City to get the count :");
@@ -195,7 +206,9 @@ public class AddressBookSystem {
     /**
      * Method to add contact by city in hashmap
      * @param cityName
+     * add the city name as the key of the cityContactList
      * @param contact
+     * add the list city contact list
      */
     public void addContactByCity(String cityName , Contact contact){
         if(!cityContactList.containsKey(cityName)){
@@ -205,6 +218,13 @@ public class AddressBookSystem {
         addContactToAddressBookSystemByCityFile(contact.getCity() , contact);
     }
 
+    /**
+     * Method to add the contact to address book system by city to file , create directories and files
+     * @param city
+     * name of the city
+     * @param contact
+     * Contact Class object contact
+     */
     private void addContactToAddressBookSystemByCityFile(String city, Contact contact) {
         String directoryPath =  "AddressBookSystem/Cities";
         String content = contact.toString();
@@ -225,7 +245,9 @@ public class AddressBookSystem {
     /**
      * Method to add contact by state in hashmap
      * @param stateName
+     * Name of the  state to create the file
      * @param contact
+     * Contact Class object to add
      */
     public void addContactByState(String stateName , Contact contact){
         if(!stateContactList.containsKey(stateName)){
@@ -235,6 +257,13 @@ public class AddressBookSystem {
         addContactToAddressBookSystemByStateFile(contact.getState() , contact);
     }
 
+    /**
+     * Method to add contact to address book system by state file
+     * @param state
+     * Name of the state
+     * @param contact
+     * Contact class object
+     */
     private void addContactToAddressBookSystemByStateFile(String state, Contact contact) {
         String directoryPath =  "AddressBookSystem/States";
         String content = contact.toString();
